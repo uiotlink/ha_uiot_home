@@ -4,6 +4,7 @@ import json
 import logging
 
 from homeassistant.components.climate import (
+    FAN_OFF,
     FAN_AUTO,
     FAN_HIGH,
     FAN_LOW,
@@ -52,6 +53,8 @@ def judge_fanMode(fan_mode: str) -> str:
             cur_value = FAN_HIGH
         case "auto":
             cur_value = FAN_AUTO
+        case "off":
+            cur_value = FAN_OFF
         case _:
             cur_value = FAN_AUTO
     return cur_value
@@ -373,6 +376,8 @@ class Climate(ClimateEntity):
             windSpeed = "high"
         elif fan_mode == FAN_AUTO:
             windSpeed = "auto"
+        elif fan_mode == FAN_OFF:
+            windSpeed = "off"
         else:
             windSpeed = "auto"
         msg_data = {}

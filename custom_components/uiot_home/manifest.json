@@ -4,12 +4,12 @@
   "codeowners": ["@uiot"],
   "config_flow": true,
   "dependencies": ["http", "mqtt"],
-  "documentation": "https://github.com/uiotlink/ha_uiot_home/blob/v1.0.6/README_zh.md",
+  "documentation": "https://github.com/uiotlink/ha_uiot_home/blob/v1.0.7/README_zh.md",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/uiotlink/ha_uiot_home/issues",
   "requirements": ["requests>=2.32.3"],
-  "version": "1.0.6"
+  "version": "1.0.7"
 }
 
 

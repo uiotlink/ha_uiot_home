@@ -75,11 +75,34 @@ def senser_data_parse_list(senser_data, entities, hass: HomeAssistant) -> list:
         else:
             senser_data["cur_value"] = "无人"
         entities.append(GenericSensor(senser_data, hass))
+    elif properties.get("someonePass"):
+        humanDetectedState = properties.get("someonePass")
+        senser_data["name"] = f"{deviceName}：有人无人状态"
+        senser_data["sensor_type"] = "human_detected_state_1"
+        senser_data["device_class"] = None
+        senser_data["unit_of_measurement"] = None
+        senser_data["state_class"] = None
+        senser_data["icon"] = "mdi:account"
+        if humanDetectedState == "someone":
+            senser_data["cur_value"] = "有人"
+        else:
+            senser_data["cur_value"] = "无人"
+        entities.append(GenericSensor(senser_data, hass))
 
     if properties.get("humanDistanceState"):
         humanDistanceState = properties.get("humanDistanceState", "0.01")
         senser_data["name"] = f"{deviceName}：检测距离"
         senser_data["sensor_type"] = "human_distance_state"
+        senser_data["device_class"] = None
+        senser_data["unit_of_measurement"] = "m"
+        senser_data["state_class"] = None
+        senser_data["icon"] = "mdi:ruler"
+        senser_data["cur_value"] = humanDistanceState
+        entities.append(GenericSensor(senser_data, hass))
+    elif properties.get("humanDistanceState_1"):
+        humanDistanceState = properties.get("humanDistanceState_1", "0.01")
+        senser_data["name"] = f"{deviceName}：检测距离"
+        senser_data["sensor_type"] = "human_distance_state_1"
         senser_data["device_class"] = None
         senser_data["unit_of_measurement"] = "m"
         senser_data["state_class"] = None
@@ -228,6 +251,20 @@ def senser_data_parse_list(senser_data, entities, hass: HomeAssistant) -> list:
             senser_data["cur_value"] = "报警"
             senser_data["icon"] = "mdi:shield-alert"
         entities.append(GenericSensor(senser_data, hass))
+    elif "securityAlarm" in properties:
+        alarmState = properties.get("securityAlarm")
+        senser_data["name"] = f"{deviceName}：报警状态"
+        senser_data["sensor_type"] = "securityAlarm"
+        senser_data["device_class"] = None
+        senser_data["unit_of_measurement"] = None
+        senser_data["state_class"] = None
+        if alarmState == "normal":
+            senser_data["cur_value"] = "正常"
+            senser_data["icon"] = "mdi:shield-alert"
+        else:
+            senser_data["cur_value"] = "报警"
+            senser_data["icon"] = "mdi:shield-alert"
+        entities.append(GenericSensor(senser_data, hass))
 
     return entities
 
@@ -274,12 +311,20 @@ def update_senser_status(self, payload_str):
         self._value = payload_str.get("illumination", "")
     elif self._sensor_type == "human_distance_state":
         self._value = payload_str.get("humanDistanceState", "")
+    elif self._sensor_type == "human_distance_state_1":
+        self._value = payload_str.get("humanDistanceState_1", "")
     elif self._sensor_type == "security_alarm_state":
         curtainAlarmState = payload_str.get("curtainAlarmState")
         self._value = judge_curtainAlarmState(curtainAlarmState)
     elif self._sensor_type == "human_detected_state":
         humanDetectedState = payload_str.get("humanDetectedState")
         if humanDetectedState == "havePerson":
+            self._value = "有人"
+        else:
+            self._value = "无人"
+    elif self._sensor_type == "human_detected_state_1":
+        humanDetectedState = payload_str.get("someonePass")
+        if humanDetectedState == "someone":
             self._value = "有人"
         else:
             self._value = "无人"
@@ -323,6 +368,35 @@ def update_senser_status(self, payload_str):
             self._value = judge_alarmState(alarmState)
         else:
             _LOGGER.debug("alarmState属性不存在")
+    elif self._sensor_type == "securityAlarm":
+        if "securitySwitch" in payload_str:
+            alarmState = payload_str.get("securitySwitch")
+            _LOGGER.debug("securitySwitch:%s", alarmState)
+            if alarmState == "armed":
+                if "someonePass" in payload_str:
+                    humanDetectedState = payload_str.get("someonePass")
+                    if humanDetectedState == "someone":
+                        self._value = "报警"
+                    else:
+                        self._value = "正常"
+                elif "curtainAlarmState" in payload_str:
+                    humanDetectedState = payload_str.get("curtainAlarmState")
+                    if humanDetectedState == "intrude":
+                        self._value = "报警"
+                    else:
+                        self._value = "正常"
+                elif "humanDetectedState" in payload_str:
+                    humanDetectedState = payload_str.get("humanDetectedState")
+                    if humanDetectedState == "havePerson":
+                        self._value = "报警"
+                    else:
+                        self._value = "正常"
+                else:
+                    self._value = "正常"
+            else:
+                self._value = "正常"
+        else:
+            self._value = "正常"
     if self._value == "":
         self._value = "0"
 
