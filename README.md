@@ -108,6 +108,26 @@ After logging in successfully, a list of all host families under the user's acco
 | Single-circuit switch (single fire) E series                 | switch                                                       |
 | Dual-circuit switch (single fire) E series                   | switch                                                       |
 | Three-way switch (single fire) E series                      | switch                                                       |
+| Fan Coil (dual supply)                                       | switch、mode、 temperature、wind speed                       |
+| Smart Water Floor Heating Thermostat                         | switch、 temperature                                         |
+| AI human sensor                                              | light、Working Mode、Alarm Status、 Whether there are people or not |
+| AI Super Sensor Pro                                          | light、Working Mode、Alarm Status、 Whether there are people or not、Detection distance |
+| AI smart screen-switch                                       | switch                                                       |
+| AI smart screen-curtain                                      | switch                                                       |
+| AI smart screenA7/E-switch                                   | switch                                                       |
+| AI smart screenA11/A13-switch                                | switch                                                       |
+| AI smart screenC/S-switch                                    | switch                                                       |
+| Smart color temperature light controller(0-10V)              | switch、brightness、color temperature                        |
+| Hvac general module - Fan coil                               | on、off、mode、Wind speed、Temperature                       |
+| Hvac general module - Fresh Air 3                            | on、off、Wind speed                                          |
+| Hvac general module - Fresh Air 2                            | on、off、Wind speed                                          |
+| Hvac general module - Water floor heating                    | on、off、Temperature                                         |
+| Hvac general module - switch                                 | switch                                                       |
+| Hvac general module - Garage door                            | switch                                                       |
+| Infrared human detector                                      | Battery Level、Working Mode、Alarm Status、 Whether there are people or not |
+| Infrared curtain detector                                    | Battery Level、Working Mode、Alarm Status、 Whether there are people or not |
+| Wired infrared curtain detector                              | Working Mode、Alarm Status、 Whether there are people or not |
+| Infrared curtain sensor                                      | Battery Level、Working Mode、Alarm Status、 Whether there are people or not |
 
 ## FAQ
 
