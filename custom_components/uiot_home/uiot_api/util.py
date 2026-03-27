@@ -26,9 +26,13 @@ def compute_md5(params: dict, secret: str) -> str:
     for key, val in temp_sorted.items():
         if key == "sign" or val == "" or key == "Content-Type":
             continue
+        if val is None:
+        # 将None值转换为空字符串，避免TypeError
+            val = ""
+
         if md5_raw_str != "":
             md5_raw_str += "&"
-        md5_raw_str = md5_raw_str + key + "=" + val
+        md5_raw_str = md5_raw_str + key + "=" + str(val)
     md5_raw_str += secret
     md5_hash = hashlib.md5()
     md5_hash.update(md5_raw_str.encode("utf-8"))
@@ -204,6 +208,7 @@ def phase_dev_list(list_data: str) -> list:
         "hvac_485_ac_gree_fgr35d": "climate",
         "hvac_485_ac_hitachi_pcpihhq": "climate",
         "hvac_485_ac_haier_casarte_ycja001": "climate",
+        "hvac_full_screen_ac_gateway_child_ac_midea": "climate",
         "hvac_485_wfh_ya_te_lee6606": "water_heater",
         "hvac_485_efh_org": "water_heater",
         "hvac_485_wfh_org": "water_heater",
@@ -645,6 +650,17 @@ def phase_dev_list(list_data: str) -> list:
             "temperature_max": 30,
             "temperature_min": 16,
             "hvac_modes": ["off", "cool", "heat", "dry", "fan_only", "auto"],
+            "fan_modes": ["low", "medium", "high", "auto"],
+        },
+        "hvac_full_screen_ac_gateway_child_ac_midea": {
+            "currentTemperature": "0",
+            "targetTemperature": "26",
+            "thermostatMode": "cool",
+            "powerSwitch": "off",
+            "windSpeed": "low",
+            "temperature_max": 30,
+            "temperature_min": 16,
+            "hvac_modes": ["cool", "heat", "dry", "fan_only"],
             "fan_modes": ["low", "medium", "high", "auto"],
         },
         "hvac_485_wfh_ya_te_lee6606": {
